@@ -1,1 +1,13 @@
-###TODO
+### TODO
+[] Re-do existing views
+[] Implement confirmation for deleting placemarks
+[] Add navbar
+[] Implement light/dark mode switching
+[] Implement image support for placemarks
+[] Add map view
+[] Implement map support for placemarks
+[] Implement persistence through Firebase
+[] Add splash screen
+[] Implement authentication, load placemarks when successfully authentication
+[] Refactor project to MVP design pattern
+
