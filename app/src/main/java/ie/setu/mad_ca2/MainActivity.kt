@@ -1,20 +1,68 @@
 package ie.setu.mad_ca2
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var companyName: EditText
+    private lateinit var companyDescription: EditText
+    private lateinit var companyCountry: Spinner
+    private lateinit var companyDate: EditText
+    private lateinit var btnAdd: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        companyName = findViewById(R.id.companyName)
+        companyDescription = findViewById(R.id.companyDescription)
+        companyCountry = findViewById(R.id.companyCountry)
+        companyDate = findViewById(R.id.companyDate)
+        btnAdd = findViewById(R.id.btnAdd)
+
+        setupSpinner()
+        setupDatePicker()
+    }
+
+    private fun setupSpinner() {
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.countries,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            companyCountry.adapter = adapter
+        }
+    }
+
+    private fun setupDatePicker() {
+        companyDate.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(
+                this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    companyDate.setText(selectedDate)
+                },
+                year,
+                month,
+                day
+            )
+            datePickerDialog.show()
         }
     }
 }
