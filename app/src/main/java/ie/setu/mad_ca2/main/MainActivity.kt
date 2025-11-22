@@ -1,14 +1,14 @@
-package ie.setu.mad_ca2
+package ie.setu.mad_ca2.main
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import ie.setu.mad_ca2.R
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
