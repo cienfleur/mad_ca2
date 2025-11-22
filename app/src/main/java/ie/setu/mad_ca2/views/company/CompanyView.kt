@@ -1,4 +1,4 @@
-package ie.setu.mad_ca2.main
+package ie.setu.mad_ca2.views.company
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -6,13 +6,14 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import ie.setu.mad_ca2.R
+import ie.setu.mad_ca2.models.Company
 import java.util.Calendar
 
-class MainActivity : AppCompatActivity() {
+class CompanyView : AppCompatActivity() {
 
+    lateinit var presenter: CompanyPresenter
     private lateinit var companyName: EditText
     private lateinit var companyDescription: EditText
     private lateinit var companyCountry: Spinner
@@ -21,8 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        presenter = CompanyPresenter(this)
 
         companyName = findViewById(R.id.companyName)
         companyDescription = findViewById(R.id.companyDescription)
@@ -32,6 +34,15 @@ class MainActivity : AppCompatActivity() {
 
         setupSpinner()
         setupDatePicker()
+
+        btnAdd.setOnClickListener {
+            presenter.doAddCompany(
+                companyName.text.toString(),
+                companyDescription.text.toString(),
+                companyCountry.selectedItem.toString(),
+                companyDate.text.toString()
+            )
+        }
     }
 
     private fun setupSpinner() {
