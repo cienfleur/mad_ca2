@@ -1,4 +1,4 @@
-package org.wit.placemark.helpers
+package ie.setu.mad_ca2.helpers
 
 import android.content.Context
 import timber.log.Timber.e
