@@ -39,26 +39,26 @@ class CompanyJSONStorage(private val context: Context) : CompanyStorage {
     }
 
     override fun findById(id:Long) : Company? {
-        val foundPlacemark: Company? = companies.find { it.id == id }
-        return foundPlacemark
+        val foundCompany: Company? = companies.find { it.id == id }
+        return foundCompany
     }
 
-    override fun create(placemark: Company) {
-        placemark.id = generateRandomId()
-        companies.add(placemark)
+    override fun create(company: Company) {
+        company.id = generateRandomId()
+        companies.add(company)
         serialize()
     }
 
-    override fun update(placemark: Company) {
-        val placemarksList = findAll() as ArrayList<Company>
-        var foundPlacemark: Company? = placemarksList.find { p -> p.id == placemark.id }
-        if (foundPlacemark != null) {
-            foundPlacemark.title = placemark.title
-            foundPlacemark.description = placemark.description
-            foundPlacemark.image = placemark.image
-            foundPlacemark.lat = placemark.lat
-            foundPlacemark.lng = placemark.lng
-            foundPlacemark.zoom = placemark.zoom
+    override fun update(company: Company) {
+        val companyList = findAll() as ArrayList<Company>
+        var foundCompany: Company? = companyList.find { p -> p.id == company.id }
+        if (foundCompany != null) {
+            foundCompany.name = company.name
+            foundCompany.description = company.description
+            foundCompany.image = company.image
+            foundCompany.lat = company.lat
+            foundCompany.lng = company.lng
+            foundCompany.zoom = company.zoom
         }
         serialize()
     }
@@ -73,8 +73,8 @@ class CompanyJSONStorage(private val context: Context) : CompanyStorage {
         companies = gsonBuilder.fromJson(jsonString, listType)
     }
 
-    override fun delete(placemark: Company) {
-        companies.remove(placemark)
+    override fun delete(company: Company) {
+        companies.remove(company)
         serialize()
     }
 

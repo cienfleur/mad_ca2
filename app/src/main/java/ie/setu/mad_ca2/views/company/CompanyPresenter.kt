@@ -18,5 +18,6 @@ class CompanyPresenter(val view: CompanyView) {
         // view.showCompanyList()
         
         // Logic to add company to storage will go here
+
     }
 }

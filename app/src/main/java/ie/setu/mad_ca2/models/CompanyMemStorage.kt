@@ -12,41 +12,41 @@ internal fun getId(): Long {
 
 class CompanyMemStorage : CompanyStorage {
 
-    val placemarks = kotlin.collections.ArrayList<Company>()
+    val companies = kotlin.collections.ArrayList<Company>()
 
     override fun findAll(): List<Company> {
-        return placemarks
+        return companies
     }
 
     override fun findById(id:Long) : Company? {
-        val foundPlacemark: Company? = placemarks.find { it.id == id }
-        return foundPlacemark
+        val foundCompany: Company? = companies.find { it.id == id }
+        return foundCompany
     }
 
-    override fun create(placemark: Company) {
-        placemark.id = getId()
-        placemarks.add(placemark)
+    override fun create(company: Company) {
+        company.id = getId()
+        companies.add(company)
         logAll()
     }
 
-    override fun update(placemark: Company) {
-        val foundPlacemark: Company? = placemarks.find { p -> p.id == placemark.id }
-        if (foundPlacemark != null) {
-            foundPlacemark.title = placemark.title
-            foundPlacemark.description = placemark.description
-            foundPlacemark.image = placemark.image
-            foundPlacemark.lat = placemark.lat
-            foundPlacemark.lng = placemark.lng
-            foundPlacemark.zoom = placemark.zoom
+    override fun update(company: Company) {
+        val foundCompany: Company? = companies.find { p -> p.id == company.id }
+        if (foundCompany != null) {
+            foundCompany.name = company.name
+            foundCompany.description = company.description
+            foundCompany.image = company.image
+            foundCompany.lat = company.lat
+            foundCompany.lng = company.lng
+            foundCompany.zoom = company.zoom
             logAll()
         }
     }
 
     private fun logAll() {
-        placemarks.forEach { i("$it") }
+        companies.forEach { i("$it") }
     }
 
-    override fun delete(placemark: Company) {
-        placemarks.remove(placemark)
+    override fun delete(company: Company) {
+        companies.remove(company)
     }
 }
