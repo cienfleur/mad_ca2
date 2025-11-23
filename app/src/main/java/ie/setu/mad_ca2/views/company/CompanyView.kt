@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import ie.setu.mad_ca2.R
 import ie.setu.mad_ca2.models.Company
 import java.util.Calendar
@@ -21,6 +22,7 @@ class CompanyView : AppCompatActivity() {
     private lateinit var btnAdd: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

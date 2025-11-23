@@ -14,10 +14,9 @@
         android:theme="@style/Theme.Mad_ca2">
         <activity
             android:name=".views.company.CompanyView"
-            android:exported="true">
+            android:exported="true" android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
