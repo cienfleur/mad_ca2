@@ -1,5 +1,5 @@
 ### TODO
-- [ ] Re-do existing views
+- [x] Re-do existing views
 - [ ] Implement confirmation for deleting placemarks
 - [ ] Add navbar
 - [ ] Implement light/dark mode switching
