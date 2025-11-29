@@ -1,6 +1,6 @@
 ### TODO
 - [x] Re-do existing views
-- [ ] Implement confirmation for deleting placemarks
+- [x] Implement confirmation for deleting placemarks
 - [ ] Add navbar
 - [ ] Implement light/dark mode switching
 - [ ] Implement image support for placemarks
