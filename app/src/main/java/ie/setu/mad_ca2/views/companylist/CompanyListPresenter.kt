@@ -8,6 +8,8 @@ import androidx.activity.result.registerForActivityResult
 import ie.setu.mad_ca2.main.MainApp
 import ie.setu.mad_ca2.models.Company
 import ie.setu.mad_ca2.views.company.CompanyView
+import timber.log.Timber.i
+
 
 class CompanyListPresenter(val view: CompanyListView) {
 
@@ -30,6 +32,17 @@ class CompanyListPresenter(val view: CompanyListView) {
         launcherIntent.putExtra("company_edit", company)
         refreshIntentLauncher.launch(launcherIntent)
     }
+
+    fun doDeleteCompany(company: Company) {
+        view.showDeleteConfirm(company)
+    }
+
+    fun doConfirmDelete(company: Company) {
+        i("Deleting company: $company")
+        app.companies.delete(company)
+        loadCompanies()
+    }
+
 
     // Since we don't have direct access to the adapter here,
     // we simply ask the view to refresh everything when we return.

@@ -8,7 +8,7 @@ import ie.setu.mad_ca2.models.Company
 
 interface CompanyListener {
     fun onCompanyClick(company: Company)
-    // Optional: Add onCompanyDeleteClick(company: Company) here if needed
+    fun onCompanyDeleteClick(company: Company)
 }
 
 class CompanyAdapter constructor(private var companies: List<Company>, private val listener: CompanyListener) :
@@ -39,8 +39,7 @@ class CompanyAdapter constructor(private var companies: List<Company>, private v
             // Set the click listener on the whole card
             binding.root.setOnClickListener { listener.onCompanyClick(company) }
 
-            // If you have a delete button in your card XML, uncomment this:
-            // binding.btnDelete.setOnClickListener { listener.onCompanyDeleteClick(company) }
+            binding.btnDelete.setOnClickListener { listener.onCompanyDeleteClick(company) }
         }
     }
 }

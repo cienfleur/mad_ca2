@@ -12,6 +12,7 @@ import ie.setu.mad_ca2.adapters.CompanyListener
 import ie.setu.mad_ca2.databinding.ActivityListBinding
 import ie.setu.mad_ca2.main.MainApp
 import ie.setu.mad_ca2.models.Company
+import android.app.AlertDialog
 
 
 class CompanyListView : AppCompatActivity(), CompanyListener {
@@ -48,6 +49,22 @@ class CompanyListView : AppCompatActivity(), CompanyListener {
         binding.companyList.adapter?.notifyDataSetChanged()
     }
 
+    fun showDeleteConfirm(company: Company) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Delete Company")
+        builder.setMessage("Are you sure you want to delete this company?")
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            presenter.doConfirmDelete(company)
+            loadCompanies()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("No") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
@@ -63,4 +80,8 @@ class CompanyListView : AppCompatActivity(), CompanyListener {
     override fun onCompanyClick(company: Company) {
         presenter.doEditCompany(company)
     }
+
+    override fun onCompanyDeleteClick(company: Company) {
+        presenter.doDeleteCompany(company)
+        }
 }
