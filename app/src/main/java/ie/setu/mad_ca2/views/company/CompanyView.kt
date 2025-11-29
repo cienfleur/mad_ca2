@@ -1,49 +1,58 @@
 package ie.setu.mad_ca2.views.company
 
 import android.app.DatePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.EditText
-import android.widget.Spinner
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.squareup.picasso.Picasso
 import ie.setu.mad_ca2.R
+import ie.setu.mad_ca2.databinding.ActivityMainBinding
 import ie.setu.mad_ca2.models.Company
 import java.util.Calendar
 
 class CompanyView : AppCompatActivity() {
 
-    lateinit var presenter: CompanyPresenter
-    private lateinit var companyName: EditText
-    private lateinit var companyDescription: EditText
-    private lateinit var companyCountry: Spinner
-    private lateinit var companyDate: EditText
-    private lateinit var btnAdd: Button
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var presenter: CompanyPresenter
+
+    lateinit var imagePickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         presenter = CompanyPresenter(this)
 
-        companyName = findViewById(R.id.companyName)
-        companyDescription = findViewById(R.id.companyDescription)
-        companyCountry = findViewById(R.id.companyCountry)
-        companyDate = findViewById(R.id.companyDate)
-        btnAdd = findViewById(R.id.btnAdd)
-
+        registerImagePicker()
         setupSpinner()
         setupDatePicker()
 
-        btnAdd.setOnClickListener {
+        binding.btnChooseImage.setOnClickListener {
+            presenter.doSelectImage()
+        }
+
+        binding.btnAdd.setOnClickListener {
             presenter.doAddCompany(
-                companyName.text.toString(),
-                companyDescription.text.toString(),
-                companyCountry.selectedItem.toString(),
-                companyDate.text.toString()
+                binding.companyName.text.toString(),
+                binding.companyDescription.text.toString(),
+                binding.companyCountry.selectedItem.toString(),
+                binding.companyDate.text.toString()
             )
+        }
+    }
+
+    private fun registerImagePicker() {
+        imagePickerLauncher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+                presenter.doUpdateImage(uri)
+            }
         }
     }
 
@@ -54,12 +63,12 @@ class CompanyView : AppCompatActivity() {
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            companyCountry.adapter = adapter
+            binding.companyCountry.adapter = adapter
         }
     }
 
     private fun setupDatePicker() {
-        companyDate.setOnClickListener {
+        binding.companyDate.setOnClickListener {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -69,7 +78,7 @@ class CompanyView : AppCompatActivity() {
                 this,
                 { _, selectedYear, selectedMonth, selectedDay ->
                     val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                    companyDate.setText(selectedDate)
+                    binding.companyDate.setText(selectedDate)
                 },
                 year,
                 month,
@@ -78,4 +87,18 @@ class CompanyView : AppCompatActivity() {
             datePickerDialog.show()
         }
     }
+    fun showCompany(company: Company) {
+        binding.companyName.setText(company.name)
+        binding.companyDescription.setText(company.description)
+        binding.companyDate.setText(company.date)
+        binding.btnAdd.setText(R.string.save_company) // Update button text
+        if (company.image.isNotEmpty()) {
+            Picasso.get().load(Uri.parse(company.image)).into(binding.companyImage)
+        }
+    }
+
+    fun showImage(uri: Uri) {
+        Picasso.get().load(uri).into(binding.companyImage)
+    }
+
 }
