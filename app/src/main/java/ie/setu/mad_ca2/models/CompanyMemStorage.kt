@@ -4,10 +4,10 @@ import timber.log.Timber.i
 import kotlin.collections.find
 import kotlin.collections.forEach
 
-var lastId = 0L
+var lastId = ""
 
-internal fun getId(): Long {
-    return lastId++
+internal fun getId(): String {
+    return lastId
 }
 
 class CompanyMemStorage : CompanyStorage {
@@ -18,7 +18,7 @@ class CompanyMemStorage : CompanyStorage {
         return companies
     }
 
-    override fun findById(id:Long) : Company? {
+    override fun findById(id:String) : Company? {
         val foundCompany: Company? = companies.find { it.id == id }
         return foundCompany
     }
@@ -34,6 +34,7 @@ class CompanyMemStorage : CompanyStorage {
         if (foundCompany != null) {
             foundCompany.name = company.name
             foundCompany.description = company.description
+            foundCompany.country = company.country
             foundCompany.image = company.image
             foundCompany.lat = company.lat
             foundCompany.lng = company.lng

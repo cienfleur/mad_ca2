@@ -19,8 +19,8 @@ val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .create()
 val listType: Type = object : TypeToken<ArrayList<Company>>() {}.type
 
-fun generateRandomId(): Long {
-    return Random().nextLong()
+fun generateRandomId(): String {
+    return Random().nextLong().toString()
 }
 
 class CompanyJSONStorage(private val context: Context) : CompanyStorage {
@@ -38,7 +38,7 @@ class CompanyJSONStorage(private val context: Context) : CompanyStorage {
         return companies
     }
 
-    override fun findById(id:Long) : Company? {
+    override fun findById(id:String) : Company? {
         val foundCompany: Company? = companies.find { it.id == id }
         return foundCompany
     }

@@ -5,7 +5,8 @@
     <string name="hint_companyDescription">Description</string>
     <string name="hint_companyCountry">Country of Origin</string>
     <string name="hint_companyDate">Date of Founding</string>
-    
+    <string name="button_delete">Delete</string>
+    <string name="save_company">Save</string>
     <string-array name="countries">
         <item>Afghanistan</item>
         <item>Albania</item>
