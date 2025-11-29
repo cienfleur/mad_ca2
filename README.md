@@ -7,6 +7,6 @@
 - [ ] Add map view
 - [ ] Implement map support for placemarks
 - [ ] Implement persistence through Firebase
-- [ ] Add splash screen
+- [x] Add splash screen
 - [ ] Implement authentication, load placemarks when successfully authentication
 - [x] Refactor project to MVP design pattern
