@@ -1,12 +1,12 @@
 package ie.setu.mad_ca2.views.auth
 
+import android.util.Patterns
 import ie.setu.mad_ca2.main.MainApp
 
 class LoginPresenter(val view: LoginView) {
 
     var app: MainApp = view.application as MainApp
 
-    // State is now owned by the Presenter
     private var isLogin = true
 
     init {
@@ -23,8 +23,23 @@ class LoginPresenter(val view: LoginView) {
     }
 
     fun doClickAuthAction(email: String, pass: String) {
-        if (email.isEmpty() || pass.isEmpty()) {
-            view.showSnackBar("Please enter email and password")
+
+        if (email.isEmpty()) {
+            view.showSnackBar("Email cannot be empty")
+            return
+        }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            view.showSnackBar("Please enter a valid email address")
+            return
+        }
+
+
+        if (pass.isEmpty()) {
+            view.showSnackBar("Password cannot be empty")
+            return
+        }
+        if (pass.length < 6) {
+            view.showSnackBar("Password must be at least 6 characters")
             return
         }
 
@@ -34,6 +49,7 @@ class LoginPresenter(val view: LoginView) {
             doRegister(email, pass)
         }
     }
+
 
     private fun doLogin(email: String, pass: String) {
         // TODO: Add Firebase Auth logic here later

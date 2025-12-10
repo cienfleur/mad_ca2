@@ -20,7 +20,6 @@ class LoginView : AppCompatActivity() {
 
         presenter = LoginPresenter(this)
 
-        // Forward click events to Presenter
         binding.btnAuthAction.setOnClickListener {
             val email = binding.email.text.toString()
             val password = binding.password.text.toString()
@@ -31,8 +30,6 @@ class LoginView : AppCompatActivity() {
             presenter.doToggleAuthMode()
         }
     }
-
-    // --- Methods called by the Presenter to update UI ---
 
     fun showLoginState() {
         binding.authTitle.text = "Login"
@@ -49,4 +46,5 @@ class LoginView : AppCompatActivity() {
     fun showSnackBar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
     }
+
 }
