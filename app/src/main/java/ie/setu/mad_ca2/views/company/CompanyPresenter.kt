@@ -23,7 +23,9 @@ class CompanyPresenter(val view: CompanyView) {
     init {
         // If editing an existing company, load its image
         if (view.intent.hasExtra("company_edit")) {
+            edit = true
             company = view.intent.extras?.getParcelable("company_edit")!!
+            view.showCompany(company)
             if (company.image.isNotEmpty()) {
                 // If you are using Uri string in model:
                 tempUri = Uri.parse(company.image)
@@ -33,7 +35,6 @@ class CompanyPresenter(val view: CompanyView) {
     }
 
     fun doAddCompany(name: String, description: String, country: String, date: String) {
-        val company = Company()
         company.name = name
         company.description = description
         company.country = country
@@ -41,12 +42,14 @@ class CompanyPresenter(val view: CompanyView) {
         // Save the Uri as a String (Temporary until Firebase Storage is added)
         company.image = tempUri.toString()
 
-        app.companies.create(company)
-        i("Company Created: $company")
-        val intent = Intent(view, CompanyListView::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP) // Clears back stack
-        view.startActivity(intent)
-        // view.finish() // replace when finished testing
+        if (edit) {
+            app.companies.update(company)
+            i("Company Updated: $company")
+        } else {
+            app.companies.create(company)
+            i("Company Created: $company")
+        }
+        view.finish()
 
     }
 

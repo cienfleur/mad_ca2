@@ -43,9 +43,6 @@ class CompanyListPresenter(val view: CompanyListView) {
         loadCompanies()
     }
 
-
-    // Since we don't have direct access to the adapter here,
-    // we simply ask the view to refresh everything when we return.
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
