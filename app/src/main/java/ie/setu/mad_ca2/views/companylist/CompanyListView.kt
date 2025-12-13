@@ -13,6 +13,7 @@ import ie.setu.mad_ca2.databinding.ActivityListBinding
 import ie.setu.mad_ca2.main.MainApp
 import ie.setu.mad_ca2.models.Company
 import android.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 
 
 class CompanyListView : AppCompatActivity(), CompanyListener {
@@ -26,16 +27,16 @@ class CompanyListView : AppCompatActivity(), CompanyListener {
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Setup Toolbar
         binding.toolbar.title = title
         setSupportActionBar(binding.toolbar)
 
         presenter = CompanyListPresenter(this)
 
-        // Setup RecyclerView
         val layoutManager = LinearLayoutManager(this)
         binding.companyList.layoutManager = layoutManager
         loadCompanies()
+
+        setupBottomNav()
     }
 
     private fun loadCompanies() {
@@ -84,4 +85,28 @@ class CompanyListView : AppCompatActivity(), CompanyListener {
     override fun onCompanyDeleteClick(company: Company) {
         presenter.doDeleteCompany(company)
         }
+    private fun setupBottomNav() {
+        binding.bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.item_home -> {
+                    true
+                }
+                R.id.item_theme_toggle -> {
+                    toggleTheme()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun toggleTheme() {
+        val currentMode = AppCompatDelegate.getDefaultNightMode()
+
+        if (currentMode == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
 }
