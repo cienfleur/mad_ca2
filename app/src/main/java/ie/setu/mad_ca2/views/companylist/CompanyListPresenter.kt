@@ -17,6 +17,7 @@ class CompanyListPresenter(val view: CompanyListView) {
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     init {
+        app.companies.fetchCompanies { loadCompanies() }
         registerRefreshCallback()
     }
 
