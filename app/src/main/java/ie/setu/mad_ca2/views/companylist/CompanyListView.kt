@@ -44,7 +44,6 @@ class CompanyListView : AppCompatActivity(), CompanyListener {
         binding.companyList.adapter?.notifyDataSetChanged()
     }
 
-    // Called by Presenter to force a UI update
     fun showCompanies(companies: List<Company>) {
         binding.companyList.adapter = CompanyAdapter(companies, this)
         binding.companyList.adapter?.notifyDataSetChanged()

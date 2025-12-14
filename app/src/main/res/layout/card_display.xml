@@ -47,15 +47,27 @@
             app:layout_constraintEnd_toStartOf="@+id/btnDelete"/>
 
         <TextView
-            android:id="@+id/txtCountryDate"
+            android:id="@+id/country"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Ireland • 01/01/2024"
+            android:text="Country"
             android:textSize="12sp"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
             app:layout_constraintTop_toBottomOf="@+id/description"
+            app:layout_constraintEnd_toStartOf="@+id/btnDelete"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Date"
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toEndOf="@+id/imageIcon"
+            app:layout_constraintTop_toBottomOf="@+id/country"
             app:layout_constraintEnd_toStartOf="@+id/btnDelete"/>
 
         <ImageButton

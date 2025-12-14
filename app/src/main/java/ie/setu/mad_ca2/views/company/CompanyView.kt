@@ -12,12 +12,14 @@ import com.squareup.picasso.Picasso
 import ie.setu.mad_ca2.R
 import ie.setu.mad_ca2.databinding.ActivityMainBinding
 import ie.setu.mad_ca2.models.Company
+import java.text.SimpleDateFormat
 import java.util.Calendar
 
 class CompanyView : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var presenter: CompanyPresenter
+    private var timestamp: Long = 0L
 
     lateinit var imagePickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
 
@@ -41,7 +43,7 @@ class CompanyView : AppCompatActivity() {
                 binding.companyName.text.toString(),
                 binding.companyDescription.text.toString(),
                 binding.companyCountry.selectedItem.toString(),
-                binding.companyDate.text.toString()
+                timestamp
             )
         }
     }
@@ -75,8 +77,17 @@ class CompanyView : AppCompatActivity() {
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
-                    binding.companyDate.setText(selectedDate)
+                    val selectedCalendar = Calendar.getInstance().apply {
+                        set(selectedYear, selectedMonth, selectedDay)
+                    }
+
+                    // 2. Get the timestamp as a Long
+                    timestamp = selectedCalendar.timeInMillis
+
+                    // 3. Store the timestamp in a hidden variable or pass directly
+                    // For now, let's just display it formatted
+                    val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    binding.companyDate.setText(formattedDate)
                 },
                 year,
                 month,
@@ -88,8 +99,11 @@ class CompanyView : AppCompatActivity() {
     fun showCompany(company: Company) {
         binding.companyName.setText(company.name)
         binding.companyDescription.setText(company.description)
-        binding.companyDate.setText(company.date)
-        binding.btnAdd.setText(R.string.save_company) // Update button text
+        if (company.date != 0L) {
+            val format = SimpleDateFormat("dd/MM/yyyy")
+            binding.companyDate.setText(format.format(company.date))
+        }
+        binding.btnAdd.setText(R.string.save_company)
         if (company.image.isNotEmpty()) {
             Picasso.get().load(Uri.parse(company.image)).into(binding.companyImage)
         }

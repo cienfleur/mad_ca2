@@ -34,7 +34,7 @@ class CompanyPresenter(val view: CompanyView) {
         }
     }
 
-    fun doAddCompany(name: String, description: String, country: String, date: String) {
+    fun doAddCompany(name: String, description: String, country: String, date: Long) {
         company.name = name
         company.description = description
         company.country = country

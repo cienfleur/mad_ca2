@@ -5,6 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ie.setu.mad_ca2.databinding.CardDisplayBinding
 import ie.setu.mad_ca2.models.Company
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 interface CompanyListener {
     fun onCompanyClick(company: Company)
@@ -32,9 +35,14 @@ class CompanyAdapter constructor(private var companies: List<Company>, private v
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(company: Company, listener: CompanyListener) {
-            // Ensure these IDs match your card_company.xml layout
+            val date = Date(company.date)
+            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val formattedDate = formatter.format(date)
             binding.name.text = company.name
             binding.description.text = company.description
+            binding.country.text = company.country
+            binding.date.text = formattedDate
+
 
             // Set the click listener on the whole card
             binding.root.setOnClickListener { listener.onCompanyClick(company) }
