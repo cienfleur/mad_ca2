@@ -3,6 +3,8 @@ package ie.setu.mad_ca2.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import ie.setu.mad_ca2.R
 import ie.setu.mad_ca2.databinding.CardDisplayBinding
 import ie.setu.mad_ca2.models.Company
 import java.text.SimpleDateFormat
@@ -10,7 +12,7 @@ import java.util.*
 
 
 interface CompanyListener {
-    fun onCompanyClick(company: Company)
+    fun onCompanyClick(company: Company, bindingAdapterPosition: Int)
     fun onCompanyDeleteClick(company: Company)
 }
 
@@ -25,7 +27,7 @@ class CompanyAdapter constructor(private var companies: List<Company>, private v
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val company = companies[holder.adapterPosition]
+        val company = companies[holder.bindingAdapterPosition]
         holder.bind(company, listener)
     }
 
@@ -42,11 +44,12 @@ class CompanyAdapter constructor(private var companies: List<Company>, private v
             binding.description.text = company.description
             binding.country.text = company.country
             binding.date.text = formattedDate
-
-
-            // Set the click listener on the whole card
-            binding.root.setOnClickListener { listener.onCompanyClick(company) }
-
+            if (!company.image.toString().isEmpty()) {
+                Picasso.get().load(company.image).resize(200,200).into(binding.imageIcon)
+            } else {
+                binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            }
+            binding.root.setOnClickListener { listener.onCompanyClick(company,bindingAdapterPosition) }
             binding.btnDelete.setOnClickListener { listener.onCompanyDeleteClick(company) }
         }
     }

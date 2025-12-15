@@ -29,6 +29,7 @@ class CompanyListPresenter(val view: CompanyListView) {
     }
 
     fun doEditCompany(company: Company) {
+        i("Company to edit: $company")
         val launcherIntent = Intent(view, CompanyView::class.java)
         launcherIntent.putExtra("company_edit", company)
         refreshIntentLauncher.launch(launcherIntent)

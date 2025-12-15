@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import ie.setu.mad_ca2.R
 import ie.setu.mad_ca2.adapters.CompanyAdapter
@@ -77,7 +76,7 @@ class CompanyListView : AppCompatActivity(), CompanyListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onCompanyClick(company: Company) {
+    override fun onCompanyClick(company: Company, bindingAdapterPosition: Int) {
         presenter.doEditCompany(company)
     }
 
