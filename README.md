@@ -6,8 +6,7 @@
 - [x] Implement image support for placemarks
 - [ ] Add map view
 - [ ] Implement map support for placemarks
-- [ ] Implement persistence through Firebase
-- [ ] Implement animations between views
+- [x] Implement persistence through Firebase
 - [x] Add splash screen
 - [x] Implement authentication, load placemarks when successfully authentication
 - [x] Refactor project to MVP design pattern
