@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">Soundscape</string>
     <string name="button_addCompany">Add Entry</string>
-    <string name="hint_companyTitle">Company Name</string>
+    <string name="hint_companyName">Company Name</string>
     <string name="hint_companyDescription">Description</string>
     <string name="hint_companyCountry">Country of Origin</string>
-    <string name="hint_companyDate">Date of Founding</string>
+    <string name="hint_companyDate">Date founded</string>
     <string name="button_delete">Delete</string>
+    <string name="edit_save">Save</string>
+    <string name="edit_cancel">Cancel</string>
     <string name="save_company">Save</string>
     <string-array name="countries">
         <item>Afghanistan</item>

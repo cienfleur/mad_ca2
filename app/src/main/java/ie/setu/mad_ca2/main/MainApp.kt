@@ -1,7 +1,7 @@
 package ie.setu.mad_ca2.main
 
 import android.app.Application
-import com.google.firebase.auth.FirebaseAuth // Import this
+import com.google.firebase.auth.FirebaseAuth
 import ie.setu.mad_ca2.models.CompanyJSONStorage
 import ie.setu.mad_ca2.models.CompanyFireStoreStorage
 import timber.log.Timber

@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
-import timber.log.Timber
+import timber.log.Timber.i
 
 class CompanyFireStoreStorage(val context: Context) : CompanyStorage {
 
@@ -19,17 +19,16 @@ class CompanyFireStoreStorage(val context: Context) : CompanyStorage {
     override fun create(company: Company) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
-            // Generate a new ID from Firestore automatically
             val newRef = db.collection("users").document(userId).collection("companies").document()
             company.id = newRef.id
 
             newRef.set(company)
                 .addOnSuccessListener {
                     companies.add(company)
-                    Timber.i("Firestore: Company Created ${company.id}")
+                    i("Firestore: Company Created ${company.id}")
                 }
                 .addOnFailureListener { e ->
-                    Timber.e(e, "Firestore: Error creating company")
+                    i("Firestore: Error creating company")
                 }
         }
     }
@@ -45,10 +44,10 @@ class CompanyFireStoreStorage(val context: Context) : CompanyStorage {
                     if (index != -1) {
                         companies[index] = company
                     }
-                    Timber.i("Firestore: Company Updated ${company.id}")
+                    i("Firestore: Company Updated ${company.id}")
                 }
                 .addOnFailureListener { e ->
-                    Timber.e(e, "Firestore: Error updating company")
+                    i("Firestore: Error updating company")
                 }
         }
     }
@@ -60,10 +59,10 @@ class CompanyFireStoreStorage(val context: Context) : CompanyStorage {
                 .delete()
                 .addOnSuccessListener {
                     companies.remove(company)
-                    Timber.i("Firestore: Company Deleted ${company.id}")
+                    i("Firestore: Company Deleted ${company.id}")
                 }
                 .addOnFailureListener { e ->
-                    Timber.e(e, "Firestore: Error deleting company")
+                    i("Firestore: Error deleting company")
                 }
         }
     }
@@ -78,18 +77,17 @@ class CompanyFireStoreStorage(val context: Context) : CompanyStorage {
                     companies.clear()
                     for (document in result) {
                         val company = document.toObject<Company>()
-                        // Ensure the ID is set correctly from the document ID
                         company.id = document.id
                         companies.add(company)
                     }
                     onComplete()
                 }
                 .addOnFailureListener { exception ->
-                    Timber.e(exception, "Firestore: Error getting documents.")
-                    onComplete() // Callback even on failure so the app doesn't hang
+                    i(exception, "Firestore: Error getting documents.")
+                    onComplete()
                 }
         } else {
-            Timber.e("Firestore: User not logged in")
+            i("Firestore: User not logged in")
             onComplete()
         }
     }
