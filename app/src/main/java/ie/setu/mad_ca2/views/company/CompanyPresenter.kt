@@ -1,73 +1,62 @@
 package ie.setu.mad_ca2.views.company
 
 import android.net.Uri
-import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
-import timber.log.Timber.i
-import ie.setu.mad_ca2.models.Company
 import ie.setu.mad_ca2.main.MainApp
-import ie.setu.mad_ca2.views.company.CompanyView
-import ie.setu.mad_ca2.views.companylist.CompanyListView
+import ie.setu.mad_ca2.models.Company
+import timber.log.Timber
 
-// Presenter for the Company View
 class CompanyPresenter(val view: CompanyView) {
 
     var company = Company()
     var app: MainApp = view.application as MainApp
-    var tempUri: Uri = Uri.EMPTY
     var edit = false
 
     init {
-        // If editing an existing company, load its image
         if (view.intent.hasExtra("company_edit")) {
             edit = true
             company = view.intent.extras?.getParcelable("company_edit")!!
             view.showCompany(company)
-            if (company.image.isNotEmpty()) {
-                // If you are using Uri string in model:
-                tempUri = Uri.parse(company.image)
-                view.showImage(tempUri)
-            }
         }
     }
 
     fun doAddCompany(name: String, description: String, country: String, date: Long) {
+        // validate that each field is not empty
+
         company.name = name
         company.description = description
         company.country = country
         company.date = date
-        // Save the Uri as a String (Temporary until Firebase Storage is added)
-        company.image = tempUri.toString()
 
         if (edit) {
             app.companies.update(company)
-            i("Company Updated: $company")
+            Timber.i("Company Updated: $company")
         } else {
             app.companies.create(company)
-            i("Company Created: $company")
+            Timber.i("Company Created: $company")
         }
         view.finish()
-
     }
 
+    // The presenter tells the view to launch its image picker
     fun doSelectImage() {
-        view.imagePickerLauncher.launch(
-            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-        )
+        val request = PickVisualMediaRequest.Builder()
+            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            .build()
+        // The view owns the launcher
+        view.imagePickerLauncher.launch(request)
     }
 
-    fun doUpdateImage(uri: Uri) {
-        tempUri = uri
-        view.showImage(uri)
+    // This function is called from the view's callback when an image is successfully picked.
+    fun doImageSelected(uri: Uri) {
+        // Update the model with the new image URI string
+        company.image = uri.toString()
+        Timber.i("Image Selected: ${company.image}")
+        // Tell the view to update the UI with the new image
+        view.updateImage(Uri.parse(company.image))
     }
 
-
-    // NEW: Called when the user picks an image
-    fun doSaveImage(uri: Uri) {
-        tempUri = uri
-        view.showImage(uri)
-    }
+    // Map logic can remain here for now, but should ideally be moved to the View as well
+    // ... (registerMapCallback and other map functions)
 }
