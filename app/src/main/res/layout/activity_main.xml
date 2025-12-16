@@ -107,6 +107,17 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
+                <Button
+                    android:id="@+id/btnSetLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="@string/button_setLocation"
+                    app:layout_constraintTop_toBottomOf="@+id/chooseImage"
+                />
+
+
+
             </LinearLayout>
         </ScrollView>
 

@@ -9,6 +9,7 @@
     <string name="edit_save">Save</string>
     <string name="edit_cancel">Cancel</string>
     <string name="save_company">Save</string>
+    <string name="button_setLocation">Set Location</string>
     <string-array name="countries">
         <item>Afghanistan</item>
         <item>Albania</item>
