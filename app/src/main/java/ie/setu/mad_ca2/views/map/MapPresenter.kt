@@ -26,8 +26,8 @@ class MapPresenter(val view: MapView) {
     }
 
     fun doMarkerSelected(marker: Marker) {
-        val tag = marker.tag as Long
-        val company = app.companies.findById(tag.toString())
+        val tag = marker.tag as String
+        val company = app.companies.findById(tag)
         if (company != null) view.showCompany(company)
     }
 }
