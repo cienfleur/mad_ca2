@@ -22,6 +22,8 @@ class CompanyListPresenter(val view: CompanyListView) {
     init {
         app.companies.fetchCompanies { loadCompanies() }
         registerRefreshCallback()
+        registerMapCallback()
+
     }
 
     fun getCompanies() = app.companies.findAll()
@@ -57,6 +59,13 @@ class CompanyListPresenter(val view: CompanyListView) {
         refreshIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 loadCompanies()
+            }
+    }
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                // This block can be used to handle any result coming back from the map
+                // For now, it can be empty.
             }
     }
 
