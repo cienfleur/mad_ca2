@@ -4,11 +4,14 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.setu.mad_ca2.R
 import ie.setu.mad_ca2.databinding.ActivityMainBinding // Assuming your layout is activity_main.xml
@@ -37,21 +40,13 @@ class CompanyView : AppCompatActivity() {
         registerImagePickerCallback()
         // registerMapCallback() // If you move this from the presenter, it goes here too.
 
+        setSupportActionBar(binding.toolbarAdd)
         setupSpinner()
         setupDatePicker()
 
         // Use the ImageView to trigger the image selection
         binding.companyImage.setOnClickListener {
             presenter.doSelectImage()
-        }
-
-        binding.btnAdd.setOnClickListener {
-            presenter.doAddCompany(
-                binding.companyName.text.toString(),
-                binding.companyDescription.text.toString(),
-                binding.companyCountry.selectedItem.toString(),
-                companyTimestamp
-            )
         }
     }
 
@@ -115,11 +110,38 @@ class CompanyView : AppCompatActivity() {
         if (countryIndex >= 0) {
             binding.companyCountry.setSelection(countryIndex)
         }
-        binding.btnAdd.setText(R.string.save_company)
-        updateImage(Uri.parse(company.image)) // Use the new updateImage function
+        binding.chooseImage.setOnClickListener {
+            presenter.doSelectImage()
+        }
+        updateImage(Uri.parse(company.image))
     }
 
-    // A single function to update the ImageView, called by Presenter
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_edit, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_save -> {
+                if (binding.companyName.text.toString().isEmpty()) {
+                    Snackbar.make(binding.root, R.string.hint_companyName, Snackbar.LENGTH_LONG)
+                        .show()
+                } else {
+                    presenter.doAddCompany(binding.companyName.text.toString(),
+                        binding.companyDescription.text.toString(),
+                        binding.companyCountry.selectedItem.toString(),
+                        companyTimestamp)
+                }
+            }
+            R.id.item_cancel -> {
+                presenter.doCancel()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
     fun updateImage(imageUriString: Uri) {
         if (imageUriString.toString().isNotEmpty()) {
             Picasso.get()

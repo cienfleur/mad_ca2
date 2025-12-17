@@ -5,14 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import com.squareup.picasso.Picasso
-import ie.setu.mad_ca2.databinding.ActivityMapBinding
+import ie.setu.mad_ca2.databinding.ActivityMapsBinding
 import ie.setu.mad_ca2.databinding.MapDisplayBinding
 import ie.setu.mad_ca2.main.MainApp
 import ie.setu.mad_ca2.models.Company
 
 class MapView : AppCompatActivity() , GoogleMap.OnMarkerClickListener{
 
-    private lateinit var binding: ActivityMapBinding
+    private lateinit var binding: ActivityMapsBinding
     private lateinit var contentBinding: MapDisplayBinding
     lateinit var app: MainApp
     lateinit var presenter: MapPresenter
@@ -20,7 +20,7 @@ class MapView : AppCompatActivity() , GoogleMap.OnMarkerClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         app = application as MainApp
-        binding = ActivityMapBinding.inflate(layoutInflater)
+        binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 

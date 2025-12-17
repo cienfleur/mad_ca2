@@ -93,6 +93,10 @@ class CompanyListView : AppCompatActivity(), CompanyListener {
                     toggleTheme()
                     true
                 }
+                R.id.item_map -> {
+                    presenter.doShowCompaniesMap()
+                    true
+                }
                 else -> false
             }
         }

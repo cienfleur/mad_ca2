@@ -6,8 +6,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.registerForActivityResult
 import ie.setu.mad_ca2.main.MainApp
+
 import ie.setu.mad_ca2.models.Company
 import ie.setu.mad_ca2.views.company.CompanyView
+import ie.setu.mad_ca2.views.map.MapView
 import timber.log.Timber.i
 
 
@@ -15,6 +17,7 @@ class CompanyListPresenter(val view: CompanyListView) {
 
     var app: MainApp = view.application as MainApp
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
 
     init {
         app.companies.fetchCompanies { loadCompanies() }
@@ -43,6 +46,11 @@ class CompanyListPresenter(val view: CompanyListView) {
         i("Deleting company: $company")
         app.companies.delete(company)
         loadCompanies()
+    }
+
+    fun doShowCompaniesMap() {
+        val launcherIntent = Intent(view, MapView::class.java)
+        mapIntentLauncher.launch(launcherIntent)
     }
 
     private fun registerRefreshCallback() {

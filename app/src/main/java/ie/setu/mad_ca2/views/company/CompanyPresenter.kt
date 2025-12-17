@@ -1,10 +1,14 @@
 package ie.setu.mad_ca2.views.company
 
+import android.content.Intent
 import android.net.Uri
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import ie.setu.mad_ca2.main.MainApp
 import ie.setu.mad_ca2.models.Company
+import ie.setu.mad_ca2.models.Location
+import ie.setu.mad_ca2.views.map.MapView
 import timber.log.Timber
 
 class CompanyPresenter(val view: CompanyView) {
@@ -12,22 +16,30 @@ class CompanyPresenter(val view: CompanyView) {
     var company = Company()
     var app: MainApp = view.application as MainApp
     var edit = false
+    private var location = Location(52.245696, -7.139102, 15f)
 
     init {
         if (view.intent.hasExtra("company_edit")) {
             edit = true
             company = view.intent.extras?.getParcelable("company_edit")!!
+            if (company.lat != 0.0 && company.lng != 0.0) {
+                location.lat = company.lat
+                location.lng = company.lng
+                location.zoom = company.zoom
+            }
             view.showCompany(company)
         }
     }
 
     fun doAddCompany(name: String, description: String, country: String, date: Long) {
-        // validate that each field is not empty
-
         company.name = name
         company.description = description
         company.country = country
         company.date = date
+        // Save the location data to the company model before creating/updating
+        company.lat = location.lat
+        company.lng = location.lng
+        company.zoom = location.zoom
 
         if (edit) {
             app.companies.update(company)
@@ -38,25 +50,19 @@ class CompanyPresenter(val view: CompanyView) {
         }
         view.finish()
     }
-
-    // The presenter tells the view to launch its image picker
     fun doSelectImage() {
         val request = PickVisualMediaRequest.Builder()
             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
             .build()
-        // The view owns the launcher
         view.imagePickerLauncher.launch(request)
     }
 
-    // This function is called from the view's callback when an image is successfully picked.
     fun doImageSelected(uri: Uri) {
-        // Update the model with the new image URI string
         company.image = uri.toString()
-        Timber.i("Image Selected: ${company.image}")
-        // Tell the view to update the UI with the new image
         view.updateImage(Uri.parse(company.image))
     }
 
-    // Map logic can remain here for now, but should ideally be moved to the View as well
-    // ... (registerMapCallback and other map functions)
+    fun doCancel() {
+        view.finish()
+    }
 }

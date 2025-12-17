@@ -9,7 +9,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.setu.mad_ca2.models.Location
 
-class ocationPresenter (val view: LocationView) {
+class LocationPresenter (val view: LocationView) {
 
     var location = Location()
 

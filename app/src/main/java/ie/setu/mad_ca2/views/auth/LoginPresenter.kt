@@ -79,7 +79,6 @@ class LoginPresenter(val view: LoginView) {
         app.auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(view) { task ->
             if (task.isSuccessful) {
                 view.showSnackBar("Registration Successful")
-                // return to login state
                 doToggleAuthMode()
             } else {
                 view.showSnackBar("Registration Failed: ${task.exception?.message}")
