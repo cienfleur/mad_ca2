@@ -4,8 +4,8 @@
 - [x] Add navbar
 - [x] Implement light/dark mode switching
 - [x] Implement image support for placemarks
-- [ ] Add map view
-- [ ] Implement map support for placemarks
+- [x] Add map view
+- [x] Implement map support for placemarks
 - [x] Implement persistence through Firebase
 - [x] Add splash screen
 - [x] Implement authentication, load placemarks when successfully authentication
