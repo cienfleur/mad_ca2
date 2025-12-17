@@ -1,17 +1,24 @@
 package ie.setu.mad_ca2.views.map
 
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.setu.mad_ca2.main.MainApp
+import ie.setu.mad_ca2.views.companylist.CompanyListView
 
 class MapPresenter(val view: MapView) {
     var app: MainApp
+    private lateinit var listIntentLauncher : ActivityResultLauncher<Intent>
+
 
     init {
         app = view.application as MainApp
+        registerListCallback()
     }
 
     fun doPopulateMap(map: GoogleMap) {
@@ -29,5 +36,16 @@ class MapPresenter(val view: MapView) {
         val tag = marker.tag as String
         val company = app.companies.findById(tag)
         if (company != null) view.showCompany(company)
+    }
+
+    fun doShowCompaniesList() {
+        val launcherIntent = Intent(view, CompanyListView::class.java)
+        listIntentLauncher.launch(launcherIntent)
+    }
+
+    fun registerListCallback() {
+        listIntentLauncher =
+            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            }
     }
 }

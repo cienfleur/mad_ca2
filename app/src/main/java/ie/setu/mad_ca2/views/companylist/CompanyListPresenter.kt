@@ -64,8 +64,6 @@ class CompanyListPresenter(val view: CompanyListView) {
     private fun registerMapCallback() {
         mapIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                // This block can be used to handle any result coming back from the map
-                // For now, it can be empty.
             }
     }
 
