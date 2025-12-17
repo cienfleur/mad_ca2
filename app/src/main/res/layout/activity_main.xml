@@ -132,7 +132,7 @@
                     android:layout_marginStart="96dp"
                     android:text="@string/button_setLocation"
                     android:textColor="@color/colorPrimary"
-                    app:layout_constraintEnd_toEndof="@+id/companyImage"
+                    app:layout_constraintEnd_toEndOf="@+id/companyImage"
                     app:layout_constraintStart_toEndOf="@+id/chooseImage"
                     app:layout_constraintTop_toBottomOf="@+id/companyImage" />
 
