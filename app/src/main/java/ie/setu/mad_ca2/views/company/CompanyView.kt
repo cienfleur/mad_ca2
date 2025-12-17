@@ -113,6 +113,11 @@ class CompanyView : AppCompatActivity() {
         binding.chooseImage.setOnClickListener {
             presenter.doSelectImage()
         }
+
+        binding.setLocation.setOnClickListener {
+            presenter.doSetLocation()
+        }
+
         updateImage(Uri.parse(company.image))
     }
 

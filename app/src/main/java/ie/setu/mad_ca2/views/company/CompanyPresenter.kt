@@ -2,12 +2,14 @@ package ie.setu.mad_ca2.views.company
 
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import ie.setu.mad_ca2.main.MainApp
 import ie.setu.mad_ca2.models.Company
 import ie.setu.mad_ca2.models.Location
+import ie.setu.mad_ca2.views.editlocation.LocationView
 import ie.setu.mad_ca2.views.map.MapView
 import timber.log.Timber
 
@@ -17,6 +19,7 @@ class CompanyPresenter(val view: CompanyView) {
     var app: MainApp = view.application as MainApp
     var edit = false
     private var location = Location(52.245696, -7.139102, 15f)
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
 
     init {
         if (view.intent.hasExtra("company_edit")) {
@@ -28,6 +31,7 @@ class CompanyPresenter(val view: CompanyView) {
                 location.zoom = company.zoom
             }
             view.showCompany(company)
+            registerMapCallback()
         }
     }
 
@@ -62,7 +66,24 @@ class CompanyPresenter(val view: CompanyView) {
         view.updateImage(Uri.parse(company.image))
     }
 
+    fun doSetLocation() {
+        val location = Location(52.245696, -7.139102, 15f)
+        if (company.zoom != 0f) {
+            location.lat =  company.lat
+            location.lng = company.lng
+            location.zoom = company.zoom
+        }
+        val launcherIntent = Intent(view, LocationView::class.java)
+            .putExtra("location", location)
+        mapIntentLauncher.launch(launcherIntent)
+    }
+
     fun doCancel() {
         view.finish()
+    }
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            }
     }
 }
